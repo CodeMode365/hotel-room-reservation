@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Room Reservation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Hotel Room Reservation</h1>
+
+  <section>
+    <h2>Rooms</h2>
+    <form id="room-form">
+      <input type="hidden" id="room-id">
+      <input type="text" id="room-number" placeholder="Room number" required>
+      <select id="room-type">
+        <option value="standard">Standard</option>
+        <option value="deluxe">Deluxe</option>
+        <option value="suite">Suite</option>
+      </select>
+      <input type="number" id="room-price" placeholder="Price" min="0" step="0.01" required>
+      <button type="submit" id="room-save">Add Room</button>
+      <button type="button" id="room-cancel" hidden>Cancel</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>Number</th><th>Type</th><th>Price</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="rooms-body"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Reservations</h2>
+    <form id="res-form">
+      <input type="hidden" id="res-id">
+      <select id="res-room" required></select>
+      <input type="text" id="res-guest" placeholder="Guest name" required>
+      <input type="tel" id="res-phone" placeholder="Phone">
+      <input type="date" id="res-checkin" required>
+      <input type="date" id="res-checkout" required>
+      <button type="submit" id="res-save">Book</button>
+      <button type="button" id="res-cancel" hidden>Cancel</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>Room</th><th>Guest</th><th>Phone</th><th>Check-in</th><th>Check-out</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="res-body"></tbody>
+    </table>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
