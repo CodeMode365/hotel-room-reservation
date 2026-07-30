@@ -7,49 +7,113 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Hotel Room Reservation</h1>
+  <header>
+    <h1>Hotel Room Reservation</h1>
+    <p class="muted" id="summary">Loading&hellip;</p>
+  </header>
 
-  <section>
-    <h2>Rooms</h2>
-    <form id="room-form">
-      <input type="hidden" id="room-id">
-      <input type="text" id="room-number" placeholder="Room number" required>
-      <select id="room-type">
-        <option value="standard">Standard</option>
-        <option value="deluxe">Deluxe</option>
-        <option value="suite">Suite</option>
-      </select>
-      <input type="number" id="room-price" placeholder="Price" min="0" step="0.01" required>
-      <button type="submit" id="room-save">Add Room</button>
-      <button type="button" id="room-cancel" hidden>Cancel</button>
-    </form>
-    <table>
-      <thead>
-        <tr><th>Number</th><th>Type</th><th>Price</th><th>Actions</th></tr>
-      </thead>
-      <tbody id="rooms-body"></tbody>
-    </table>
-  </section>
+  <main>
+    <section>
+      <h2>Rooms</h2>
+      <form id="room-form" novalidate>
+        <input type="hidden" id="room-id">
+        <div class="field">
+          <label for="room-number">Room number</label>
+          <input type="text" id="room-number" required maxlength="20"
+                 pattern="[A-Za-z0-9\-]{1,20}" autocomplete="off"
+                 placeholder="101" aria-describedby="room-number-error"
+                 data-hint="Use up to 20 letters, digits or dashes, e.g. 101 or A-12.">
+          <small class="error" id="room-number-error"></small>
+        </div>
+        <div class="field">
+          <label for="room-type">Type</label>
+          <select id="room-type">
+            <option value="standard">Standard</option>
+            <option value="deluxe">Deluxe</option>
+            <option value="suite">Suite</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="room-price">Price per night</label>
+          <input type="number" id="room-price" required min="0" max="1000000" step="0.01"
+                 placeholder="0.00" aria-describedby="room-price-error"
+                 data-hint="Enter an amount between 0 and 1,000,000.">
+          <small class="error" id="room-price-error"></small>
+        </div>
+        <div class="field actions">
+          <button type="submit" id="room-save">Add room</button>
+          <button type="button" id="room-cancel" class="secondary" hidden>Cancel</button>
+        </div>
+      </form>
 
-  <section>
-    <h2>Reservations</h2>
-    <form id="res-form">
-      <input type="hidden" id="res-id">
-      <select id="res-room" required></select>
-      <input type="text" id="res-guest" placeholder="Guest name" required>
-      <input type="tel" id="res-phone" placeholder="Phone">
-      <input type="date" id="res-checkin" required>
-      <input type="date" id="res-checkout" required>
-      <button type="submit" id="res-save">Book</button>
-      <button type="button" id="res-cancel" hidden>Cancel</button>
-    </form>
-    <table>
-      <thead>
-        <tr><th>Room</th><th>Guest</th><th>Phone</th><th>Check-in</th><th>Check-out</th><th>Actions</th></tr>
-      </thead>
-      <tbody id="res-body"></tbody>
-    </table>
-  </section>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Number</th><th>Type</th><th>Price</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="rooms-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Reservations</h2>
+      <form id="res-form" novalidate>
+        <input type="hidden" id="res-id">
+        <div class="field">
+          <label for="res-room">Room</label>
+          <select id="res-room" required aria-describedby="res-room-error"></select>
+          <small class="error" id="res-room-error"></small>
+        </div>
+        <div class="field">
+          <label for="res-guest">Guest name</label>
+          <input type="text" id="res-guest" required minlength="2" maxlength="100"
+                 autocomplete="name" placeholder="Jane Doe" aria-describedby="res-guest-error"
+                 data-hint="Enter the guest's full name (2-100 characters).">
+          <small class="error" id="res-guest-error"></small>
+        </div>
+        <div class="field">
+          <label for="res-phone">Phone <span class="muted">(optional)</span></label>
+          <input type="tel" id="res-phone" maxlength="30" pattern="\+?[\d ()\-]{7,30}"
+                 autocomplete="tel" placeholder="+977 9800000000"
+                 aria-describedby="res-phone-error"
+                 data-hint="7-30 digits, optionally starting with + and using spaces, dashes or brackets.">
+          <small class="error" id="res-phone-error"></small>
+        </div>
+        <div class="field">
+          <label for="res-checkin">Check-in</label>
+          <input type="date" id="res-checkin" required aria-describedby="res-checkin-error"
+                 data-hint="A new booking cannot start in the past.">
+          <small class="error" id="res-checkin-error"></small>
+        </div>
+        <div class="field">
+          <label for="res-checkout">Check-out</label>
+          <input type="date" id="res-checkout" required aria-describedby="res-checkout-error"
+                 data-hint="Check-out must be at least one night after check-in.">
+          <small class="error" id="res-checkout-error"></small>
+        </div>
+        <div class="field actions">
+          <button type="submit" id="res-save">Book</button>
+          <button type="button" id="res-cancel" class="secondary" hidden>Cancel</button>
+        </div>
+        <p class="quote" id="res-quote" hidden></p>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Room</th><th>Guest</th><th>Phone</th><th>Check-in</th>
+              <th>Check-out</th><th>Nights</th><th>Total</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="res-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite" hidden></div>
 
   <script src="script.js"></script>
 </body>

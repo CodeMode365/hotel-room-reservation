@@ -1,0 +1,9 @@
+venv/
+.git/
+.env
+__pycache__/
+*.py[cod]
+*.db
+*.db-journal
+Dockerfile
+docker-compose.yml

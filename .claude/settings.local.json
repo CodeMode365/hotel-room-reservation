@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(wsl -e bash -lc \"cd ~/college/dbms-project/hotel-room-reservation; ./venv/bin/pip install -q PyMySQL==1.1.1 gunicorn==23.0.0; docker --version\")",
+      "PowerShell(docker compose version *)",
+      "PowerShell(wsl -l -v; $p=\"$env:APPDATA\\\\Docker\\\\settings-store.json\"; if \\(Test-Path $p\\) { \\(Get-Content $p -Raw | ConvertFrom-Json\\) | Select-Object enableIntegrationWithDefaultWslDistro, integratedWslDistros | Format-List })",
+      "PowerShell(wsl -e bash -lc \"cd ~/college/dbms-project/hotel-room-reservation; docker compose up -d 2>&1 | tail -8\")",
+      "Bash(wsl.exe -e bash -lc \"command -v docker\")",
+      "PowerShell($p=\"$env:APPDATA\\\\Docker\\\\settings-store.json\"; \\(Get-Content $p -Raw | ConvertFrom-Json\\).EnableIntegrationWithDefaultWslDistro)",
+      "PowerShell(wsl -e bash -lc \"cd ~/college/dbms-project/hotel-room-reservation; docker compose up -d 2>&1 | tail -6\")",
+      "Bash(docker image *)",
+      "Bash(docker info *)",
+      "Read(///wsl.localhost/Ubuntu/home/pabin/college/dbms-project/**)",
+      "PowerShell(Start-Sleep 5; $r = Invoke-RestMethod -Method Post -Uri http://localhost:8000/api/rooms -ContentType \"application/json\" -Body '{\"room_number\":\"101\",\"room_type\":\"deluxe\",\"price\":99.5}'; \"created room id: $\\($r.id\\)\"; $res = Invoke-RestMethod -Method Post -Uri http://localhost:8000/api/reservations -ContentType \"application/json\" -Body \\('{\"room_id\":' + $r.id + ',\"guest_name\":\"Test Guest\",\"check_in\":\"2026-08-01\",\"check_out\":\"2026-08-03\"}'\\); \"created reservation id: $\\($res.id\\)\"; Invoke-RestMethod http://localhost:8000/api/rooms | ConvertTo-Json -Compress; Invoke-RestMethod http://localhost:8000/api/reservations | ConvertTo-Json -Compress)",
+      "Bash(wsl *)",
+      "Bash(wsl.exe *)"
+    ]
+  }
+}
