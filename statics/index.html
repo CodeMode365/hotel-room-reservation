@@ -5,11 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel Room Reservation</title>
   <link rel="stylesheet" href="style.css">
+  <!-- before first paint, so a pinned theme never flashes the other one -->
+  <script>document.documentElement.style.colorScheme = localStorage.theme || "";</script>
 </head>
 <body>
   <header>
-    <h1>Hotel Room Reservation</h1>
-    <p class="muted" id="summary">Loading&hellip;</p>
+    <div>
+      <h1>Hotel Room Reservation</h1>
+      <p class="muted" id="summary">Loading&hellip;</p>
+    </div>
+    <button type="button" id="theme-toggle" class="secondary"></button>
   </header>
 
   <main>

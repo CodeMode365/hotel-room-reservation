@@ -1,26 +1,15 @@
 :root {
-  --bg: #f4f5f7;
-  --card: #ffffff;
-  --text: #1b1f24;
-  --muted: #6b7280;
-  --line: #e2e5ea;
-  --accent: #2f5bd7;
-  --danger: #c0362c;
-  --ok: #1f7a4d;
+  /* follows the OS until script.js pins color-scheme to light or dark */
+  color-scheme: light dark;
+  --bg: light-dark(#f4f5f7, #14171c);
+  --card: light-dark(#ffffff, #1c2027);
+  --text: light-dark(#1b1f24, #e8eaed);
+  --muted: light-dark(#6b7280, #9aa3af);
+  --line: light-dark(#e2e5ea, #2c323b);
+  --accent: light-dark(#2f5bd7, #7d9df5);
+  --danger: light-dark(#c0362c, #f08b82);
+  --ok: light-dark(#1f7a4d, #63c795);
   --radius: 10px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #14171c;
-    --card: #1c2027;
-    --text: #e8eaed;
-    --muted: #9aa3af;
-    --line: #2c323b;
-    --accent: #7d9df5;
-    --danger: #f08b82;
-    --ok: #63c795;
-  }
 }
 
 * { box-sizing: border-box; }
@@ -35,7 +24,14 @@ body {
   line-height: 1.5;
 }
 
-header { margin-bottom: 2rem; }
+header {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
 h1 { margin: 0; font-size: 1.6rem; }
 h2 { margin: 0 0 1rem; font-size: 1.15rem; }
 .muted { color: var(--muted); font-weight: 400; }

@@ -28,6 +28,21 @@ function toast(message, kind = "ok") {
   toastTimer = setTimeout(() => (el.hidden = true), 4000);
 }
 
+// ---------- theme ----------
+
+// No stored choice means "whatever the OS says", so the label is derived, not stored.
+const themeToggle = $("theme-toggle");
+const isDark = () =>
+  (localStorage.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) === "dark";
+const labelTheme = () => (themeToggle.textContent = isDark() ? "☀ Light mode" : "🌙 Dark mode");
+
+themeToggle.onclick = () => {
+  document.documentElement.style.colorScheme = localStorage.theme = isDark() ? "light" : "dark";
+  labelTheme();
+};
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", labelTheme);
+labelTheme();
+
 /** Render one field's native constraint result into its inline error slot. */
 function showFieldError(el) {
   const ok = el.checkValidity();
