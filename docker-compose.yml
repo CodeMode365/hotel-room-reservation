@@ -8,8 +8,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
     volumes:
       - mysql_data:/var/lib/mysql
-    ports:
-      - "${DB_PORT:-3307}:3306" # so `python app.py` on the host can reach it too (3306 often taken by a local mysql/mariadb)
+    # no `ports:` on purpose - MySQL is only reachable from the app over the
+    # internal `backend` network, never from the host or the LAN
+    networks:
+      - backend
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD"]
       interval: 5s
@@ -22,12 +24,21 @@ services:
       - "8000:8000"
     environment:
       DB_HOST: db
+      DB_PORT: 3306 # container-to-container port, not the host DB_PORT
       DB_NAME: ${DB_NAME:-hotel}
       DB_USER: ${DB_USER:-hotel}
       DB_PASSWORD: ${DB_PASSWORD:-hotel}
+    networks:
+      - frontend # published :8000
+      - backend  # private link to db
     depends_on:
       db:
         condition: service_healthy
+
+networks:
+  frontend:
+  backend:
+    internal: true # no gateway: containers on it cannot be routed from outside
 
 volumes:
   mysql_data:
